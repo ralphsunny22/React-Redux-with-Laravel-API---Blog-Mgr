@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import Posts from './components/posts/Posts';
+import SinglePost from './components/posts/SinglePost';
+import EditPost from './components/posts/EditPost';
 
-function App() {
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './components/layouts/Header';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import AddPost from './components/posts/AddPost';
+
+import React, { useEffect } from 'react';
+import { useDispatch } from "react-redux";
+
+import { loadUser } from './actions/authActions';
+
+
+const App = () => {
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(loadUser())
+    
+  }, [dispatch])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <Router>
+
+    
+    <div>
+      <Header />
+      <div className="container">
+        <Switch>
+          <Route exact path="/" component={Posts} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/add" component={AddPost} />
+          <Route exact path="/post/edit/:slug" component={EditPost} />
+          <Route exact path="/post/:slug" component={SinglePost} />
+        </Switch>
+        
+      </div>
+      
     </div>
+
+    </Router>
+    
   );
+
+
+
+
+
 }
 
 export default App;
